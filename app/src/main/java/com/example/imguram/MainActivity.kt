@@ -1,20 +1,25 @@
 package com.example.imguram
 
-import android.content.ContentValues.TAG
+
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.imguram.databinding.ActivityMainBinding
-import com.example.libimgur.ImgurApi
+import com.example.imguram.ui.stories.StoriesAdapter
+import com.example.imguram.ui.stories.StoriesViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val storiesViewModel by viewModels<StoriesViewModel>()
+    private val storiesAdapter = StoriesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +27,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
+        binding.rvStories.apply {
+            layoutManager =
+                LinearLayoutManager(
+                    context,
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
+            adapter = storiesAdapter
+        }
 
+        setUpNav()
+
+        storiesViewModel.fetchTags()
+    }
+
+    private fun setUpNav() {
+        val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -35,8 +55,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
 
-        val imgurApi = ImgurApi()
-        Log.d(TAG, "onCreate: ${imgurApi.a}")
+    override fun onResume() {
+        super.onResume()
+        storiesViewModel.tags.observe(this) {
+            storiesAdapter.submitList(it)
+        }
     }
 }

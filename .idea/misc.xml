@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.12681159420289856" />
         <entry key="app/src/main/res/layout/feed_fragment.xml" value="0.14673913043478262" />
+        <entry key="app/src/main/res/layout/list_item_gallery_image.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/list_item_story.xml" value="0.75" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.19322916666666667" />
       </map>
     </option>

@@ -64,7 +64,7 @@ data class GalleryTagsResponse(
                 @Json(name = "id")
                 val id: String?,
                 @Json(name = "images")
-                val images: List<Image>,
+                val images: List<Image?>?,
                 @Json(name = "images_count")
                 val imagesCount: Int?,
                 @Json(name = "in_gallery")

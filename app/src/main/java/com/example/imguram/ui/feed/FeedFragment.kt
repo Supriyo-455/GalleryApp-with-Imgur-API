@@ -1,40 +1,46 @@
 package com.example.imguram.ui.feed
 
-import androidx.lifecycle.ViewModelProvider
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.example.imguram.R
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.imguram.databinding.FeedFragmentBinding
 
 class FeedFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = FeedFragment()
-    }
+    private val viewModel: FeedViewModel by viewModels()
+    private val feedRecyclerAdapter = FeedRecyclerAdapter()
 
-    private lateinit var viewModel: FeedViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val feed = arguments?.getString("feed") //TODO: turn it into enum
+
+        feed?.let {
+            viewModel.updateFeed(it)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val feed = arguments?.getString("feed")
-        val rootView = inflater.inflate(R.layout.feed_fragment, container, false)
+    ): View {
+        val binding = FeedFragmentBinding.inflate(inflater, container, false)
+        binding.rvGalleryFeed.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvGalleryFeed.adapter = feedRecyclerAdapter
 
-        feed?.let {
-            rootView.findViewById<TextView>(R.id.feed_type).text = it
+        viewModel.feed.observe(viewLifecycleOwner) {
+            feedRecyclerAdapter.submitList(it)
+            Toast.makeText(
+                requireContext(), "Download ${it?.let { it.size } ?: 0} images", Toast
+                    .LENGTH_SHORT
+            )
+                .show()
         }
-
-        return rootView
+        return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }

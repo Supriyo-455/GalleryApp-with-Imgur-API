@@ -46,7 +46,7 @@ class FeedRecyclerAdapter :
         holder.binding.tvGallery.text = image.title
         holder.binding.ivGallery.load("https://i.imgur.com/${image.cover}.jpg"){
             placeholder(R.drawable.placeholder_image)
-            error(R.drawable.placeholder_image)
+            error(R.drawable.placeholer_error_image)
         }
     }
 }

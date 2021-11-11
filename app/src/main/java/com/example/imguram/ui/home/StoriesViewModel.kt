@@ -1,4 +1,4 @@
-package com.example.imguram.ui.stories
+package com.example.imguram.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

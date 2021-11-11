@@ -1,5 +1,6 @@
-package com.example.imguram.ui.stories
+package com.example.imguram.ui.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.imguram.databinding.ListItemStoryBinding
+import com.example.imguram.ui.story.StoryActivity
 import com.example.libimgur.models.GalleryTagsResponse
 
 class StoriesAdapter :
@@ -45,5 +47,13 @@ class StoriesAdapter :
         holder.binding.ivStoryHead.load(
             "https://i.imgur.com/${tags.backgroundHash}.jpg"
         )
+        holder.binding.root.apply {
+            setOnClickListener {
+                val intent = Intent(context, StoryActivity::class.java).apply {
+                    putExtra("tag", tags.name)
+                }
+                context.startActivity(intent)
+            }
+        }
     }
 }

@@ -9,6 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.Coil
+import coil.imageLoader
+import coil.request.ImageRequest
+import com.example.imguram.R
 import com.example.imguram.databinding.FeedFragmentBinding
 
 class FeedFragment : Fragment() {

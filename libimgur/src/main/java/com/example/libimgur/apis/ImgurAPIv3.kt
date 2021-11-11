@@ -2,6 +2,7 @@ package com.example.libimgur.apis
 
 import com.example.libimgur.models.GalleryResponse
 import com.example.libimgur.models.GalleryTagsResponse
+import com.example.libimgur.models.TagResponse
 import com.example.libimgur.params.Section
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,4 +19,9 @@ interface ImgurAPIv3 {
 
     @GET("tags")
     suspend fun getTags(): Response<GalleryTagsResponse>
+
+    @GET("gallery/t/{tag}")
+    suspend fun getTag(
+        @Path("tag") tag: String
+    ): Response<TagResponse>
 }
